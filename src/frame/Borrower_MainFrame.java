@@ -60,6 +60,13 @@ public class Borrower_MainFrame extends JFrame {
 		menuBar.add(menu);
 		
 		JMenu menu_1 = new JMenu("\u67E5\u8BE2\u4E66\u76EE");
+		menu_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Title_Querying_Frame frame=new Title_Querying_Frame();
+				frame.setVisible(true);
+			}
+		});
 		menuBar.add(menu_1);
 		
 		JMenu menu_2 = new JMenu("\u67E5\u8BE2\u4E2A\u4EBA\u4FE1\u606F");

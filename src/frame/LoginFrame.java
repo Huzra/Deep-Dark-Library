@@ -61,7 +61,7 @@ public class LoginFrame extends JFrame {
 		label.setBounds(82, 30, 75, 30);
 		MainPanel.add(label);
 		
-		JLabel label_1 = new JLabel("密  码:");
+		JLabel label_1 = new JLabel("密码:");
 		label_1.setBounds(82, 70, 75, 30);
 		MainPanel.add(label_1);
 		

@@ -29,14 +29,18 @@ public class DataProcessing {
 	static String user="root";                                      // 数据库用户
 	static String password="123456";
 	static Hashtable<String, Borrower> borrowers;
+	static Hashtable<String, bookitem> bookitems;
 	static {
 		borrowers = new Hashtable<String, Borrower>();
+		bookitems = new Hashtable<String, bookitem>();
 		try {
 			init();
 		} catch (ClassNotFoundException e) {
 			System.out.println("数据驱动错误");
+			e.printStackTrace();
 		} catch (SQLException e) {
 			System.out.println("数据库错误");
+			e.printStackTrace();
 		}
 	}
 	public static void init() throws ClassNotFoundException, SQLException
@@ -81,6 +85,26 @@ public class DataProcessing {
 			}
 			borrowers.put(ID, temp);
 		}
+		
+		bookitem bitmp= null;			//存入书本信息的hashtable
+		sql="select* from bookitem";
+		resultSet=statement.executeQuery(sql);
+		while(resultSet.next()) {
+			String bookitemid=resultSet.getString("bookitemid");
+			String bookisbn=resultSet.getString("isbn");
+			String bookname=resultSet.getString("bookname");
+			String bookclassid=resultSet.getString("bookclassid");
+			double price=resultSet.getDouble("price");
+			String author=resultSet.getString("author");
+			String publishdate=resultSet.getString("publishdate");
+			int bookamount=resultSet.getInt("bookamount");
+			
+			bitmp= new bookitem(bookitemid,bookisbn,bookname,bookclassid,price,author,publishdate,bookamount);
+			if(bookitemid != null&&bitmp!= null) {
+				bookitems.put(bookitemid, bitmp);				
+			}
+		}
+		
 	}
 	public static Borrower searchBorrower(String ID, String pwd){
 		Borrower temp=null;
@@ -94,6 +118,18 @@ public class DataProcessing {
 		}
 		return null;
 	}
+	public static bookitem searchbookitem(String bitid) {
+		bookitem bitmp=null;
+		bitmp = bookitems.get(bitid);
+		if(bitmp!=null) {
+			return bitmp;
+		}
+		else {
+			System.out.println("查无此书号");
+			return null;
+		}
+	}
+	
 	public static  void connectToDB(String driverName) throws SQLException, ClassNotFoundException{
 		Class.forName(driverName);		
 		connection=DriverManager.getConnection(url, user, password);

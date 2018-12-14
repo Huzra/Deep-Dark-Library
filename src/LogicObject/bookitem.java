@@ -5,12 +5,12 @@ public class bookitem {
 	private String bookisbn;		//isbn
 	private String bookname;		//书名
 	private String bookclassid;		//书类号
-	private float price;			//书价
+	private double price;			//书价
 	private String author;			//作者
 	private String publishdate;		//出版日期
 	private int bookamount;			//书数量
 	
-	bookitem(String itid,String isbn,String bn,String bcid,float p,String a,String pd,int ba)
+	bookitem(String itid,String isbn,String bn,String bcid,double p,String a,String pd,int ba)
 	{
 		this.bookitemid=itid;
 		this.bookisbn=isbn;
@@ -54,7 +54,7 @@ public class bookitem {
 		this.bookclassid = bookclassid;
 	}
 
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
