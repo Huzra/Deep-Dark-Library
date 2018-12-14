@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import LogicObject.Borrower;
+import LogicObject.DataProcessing;
+import LogicObject.loan;
 
 import javax.swing.JMenuBar;
 import javax.swing.JLabel;
@@ -16,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JMenu;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class Borrower_MainFrame extends JFrame {
 
@@ -82,6 +85,24 @@ public class Borrower_MainFrame extends JFrame {
 		menuBar.add(menu_2);
 		
 		JMenu menu_3 = new JMenu("\u67E5\u8BE2\u501F\u9605\u60C5\u51B5");
+		menu_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Info_Frame frame=new Info_Frame();
+				frame.setTitle("½èÔÄÇé¿ö");
+				ArrayList<loan> list=DataProcessing.searchloans(borrower.getBorrowerID());
+				String text = null;
+				for(int i=0;i<list.size();i++)
+				{
+					if(text==null)
+						text=list.get(i).getAllInfo();
+					else
+						text+=list.get(i).getAllInfo();
+				}
+				frame.setText(text);
+				frame.setVisible(true);
+			}
+		});
 		menuBar.add(menu_3);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

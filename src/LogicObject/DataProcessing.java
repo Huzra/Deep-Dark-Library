@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -30,9 +31,11 @@ public class DataProcessing {
 	static String password="123456";
 	static Hashtable<String, Borrower> borrowers;
 	static Hashtable<String, bookitem> bookitems;
+	static Hashtable<String, ArrayList<loan>> loans;
 	static {
 		borrowers = new Hashtable<String, Borrower>();
 		bookitems = new Hashtable<String, bookitem>();
+		loans=new Hashtable<String,ArrayList<loan>>();
 		try {
 			init();
 		} catch (ClassNotFoundException e) {
@@ -104,7 +107,31 @@ public class DataProcessing {
 				bookitems.put(bookitemid, bitmp);				
 			}
 		}
-		
+		sql="select* from loan";
+		resultSet=statement.executeQuery(sql);
+		loan ltmp=null;
+		while(resultSet.next()) {
+			String loanid=resultSet.getString("loanid");
+			String borrowerid=resultSet.getString("borrowerid");
+			String loandate=resultSet.getString("loandate");
+			String duedate=resultSet.getString("duedate");
+			String bookisbn=resultSet.getString("bookisbn");
+			boolean isreturned=resultSet.getBoolean("isreturned");
+			String bookitemid=resultSet.getString("bookitemid");
+			
+			ltmp= new loan(loanid,borrowerid,loandate,duedate,bookisbn,isreturned,bookitemid);
+			if(!loans.containsKey(borrowerid)) {
+				ArrayList<loan> list=new ArrayList<loan>();
+				list.add(ltmp);
+				loans.put(borrowerid, list);
+			}
+			else
+				{
+					ArrayList<loan> list=loans.get(borrowerid);
+					list.add(ltmp);
+					loans.put(borrowerid, list);
+				}
+		}
 	}
 	public static Enumeration<bookitem> getAllBook()
 	{
@@ -134,7 +161,11 @@ public class DataProcessing {
 			return null;
 		}
 	}
-	
+	public static ArrayList<loan> searchloans(String borrowerid)
+	{
+		ArrayList<loan> list=loans.get(borrowerid);
+		return list;
+	}
 	public static  void connectToDB(String driverName) throws SQLException, ClassNotFoundException{
 		Class.forName(driverName);		
 		connection=DriverManager.getConnection(url, user, password);

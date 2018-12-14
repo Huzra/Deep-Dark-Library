@@ -84,7 +84,7 @@ public class loan {
 					"应还日期："+duedate+"\n"+
 					"isbn："+bookisbn+"\n"+
 					"是否已归还：（false为否）"+isreturned+"\n"+
-					"馆内书号："+bookitemid+"\n";
+					"馆内书号："+bookitemid+"\n\n";
 		return Info;
 	}
 	
