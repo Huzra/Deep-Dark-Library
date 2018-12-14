@@ -20,15 +20,21 @@ import java.awt.SystemColor;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import javax.swing.DefaultComboBoxModel;
 
 public class Title_Querying_Frame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTable table;
-
+	private JScrollPane scrollPane;
 	/**
 	 * Launch the application.
 	 */
@@ -67,46 +73,25 @@ public class Title_Querying_Frame extends JFrame {
 		comboBox.addItem("书名");
 		comboBox.addItem("ISBN");
 		comboBox.addItem("作者");
+		comboBox.addItem("All");
 		panel.add(comboBox);
 		
 		textField = new JTextField();
 		panel.add(textField);
 		textField.setColumns(30);
-
-
-
-		
-		
 		table = new JTable();
-		table.setBackground(SystemColor.control);
-		contentPane.add(table, BorderLayout.CENTER);
+		table.setEnabled(false);
+		table .getTableHeader().setReorderingAllowed(false);
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"\u4E66\u53F7", "ISBN", "\u4E66\u540D", "\u4F5C\u8005", "\u5206\u7C7B", "\u4EF7\u683C", "\u51FA\u7248\u65F6\u95F4", "\u9986\u5185\u5269\u4F59\u6570\u91CF"},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"bookitemid", "ISBN", "Name", "Author", "Class", "Price", "publishdate", "amount"
+			null,new String[] {
+				"\u4E66\u53F7", "ISBN", "\u4E66\u540D", "\u4F5C\u8005", "\u5206\u7C7B", "\u4EF7\u683C", "\u51FA\u7248\u65F6\u95F4", "\u5269\u4F59\u5728\u9986\u6570\u91CF"
 			}
 		));
+		
+		scrollPane = new JScrollPane();
+		contentPane.add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setViewportView(table);
+		table.setBackground(SystemColor.menu);
 		
 		JPanel panel_1 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
@@ -116,21 +101,66 @@ public class Title_Querying_Frame extends JFrame {
 		JButton button_1 = new JButton("\u8FD4\u56DE");
 		panel_1.add(button_1);
 		
-		JButton button = new JButton("\u67E5\u8BE2\u501F\u9605\u4FE1\u606F");
+		JButton button = new JButton("\u67E5\u8BE2\u56FE\u4E66");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		button.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				bookitem temp;
-				String bitid=textField.getText();
-				temp=DataProcessing.searchbookitem(bitid);
-				
-				}			
+			public void mouseClicked(MouseEvent e) 
+			{
+				SearchBooks(comboBox.getSelectedIndex(),textField.getText());
+			}			
 		});
 		panel_1.add(button);
+	}
+	public void SearchBooks(int i,String str){
+		Enumeration<bookitem> En;
+		En = DataProcessing.getAllBook();
+		bookitem temp;
+		List<Object[]> list = new ArrayList<Object[]>();
+		if(i==0)
+		{
+			while(En.hasMoreElements())
+			{
+				temp=En.nextElement();
+				if(temp.getBookname().equals(str))
+					list.add(temp.getObject());
+			}
+		}
+		else if(i==1)
+		{
+			while(En.hasMoreElements())
+			{
+				temp=En.nextElement();
+				if(temp.getBookisbn().equals(str))
+					list.add(temp.getObject());
+			}
+		}
+		else if(i==2)
+		{
+			while(En.hasMoreElements())
+			{
+				temp=En.nextElement();
+				if(temp.getAuthor().equals(str))
+					list.add(temp.getObject());
+			}
+		}
+		else
+		{
+			while(En.hasMoreElements())
+			{
+				temp=En.nextElement();
+				list.add(temp.getObject());
+			}
+		}
+		Object data[][]=new Object[list.size()][];
+		list.toArray(data);
+	String[] column= {"\u4E66\u53F7", "ISBN", "\u4E66\u540D", "\u4F5C\u8005", "\u5206\u7C7B", "\u4EF7\u683C", "\u51FA\u7248\u65F6\u95F4", "\u9986\u5185\u5269\u4F59\u6570\u91CF"};
+	table = new JTable(data,column);
+	table .getTableHeader().setReorderingAllowed(false);
+	scrollPane.setViewportView(table);
 	}
 
 }

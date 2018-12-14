@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.swing.JOptionPane;
@@ -105,6 +105,11 @@ public class DataProcessing {
 			}
 		}
 		
+	}
+	public static Enumeration<bookitem> getAllBook()
+	{
+		Enumeration<bookitem> e  = bookitems.elements();
+		return e;
 	}
 	public static Borrower searchBorrower(String ID, String pwd){
 		Borrower temp=null;

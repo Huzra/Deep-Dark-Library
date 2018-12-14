@@ -97,4 +97,9 @@ public class bookitem {
 					" È ˝¡ø£∫"+bookamount+"\n";
 		return Info;
 	}
+	public Object[] getObject()
+	{
+		Object[] ans= {bookitemid,bookisbn,bookname,author,bookclassid,price,publishdate,bookamount};
+		return ans;
+	}
 }
