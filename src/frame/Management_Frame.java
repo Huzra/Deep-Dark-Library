@@ -77,6 +77,10 @@ public class Management_Frame extends JFrame {
 		Borrower_panel.setLayout(null);
 		
 		JButton button = new JButton("\u6DFB\u52A0");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -159,6 +163,13 @@ public class Management_Frame extends JFrame {
 		tabbedPane.addTab("图书管理员", null, Librarian_panel, null);
 		
 		JButton button_8 = new JButton("\u6DFB\u52A0");
+		button_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Add_Frame frame=new Add_Frame();
+				frame.ChangePage(1);
+				frame.setVisible(true);
+			}
+		});
 		button_8.setBounds(69, 13, 113, 27);
 		Librarian_panel.add(button_8);
 		
@@ -188,6 +199,13 @@ public class Management_Frame extends JFrame {
 		tabbedPane.addTab("书籍", null, Title_panel, null);
 		
 		JButton button_4 = new JButton("\u6DFB\u52A0");
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Add_Frame frame=new Add_Frame();
+				frame.ChangePage(2);
+				frame.setVisible(true);
+			}
+		});
 		button_4.setBounds(69, 13, 113, 27);
 		Title_panel.add(button_4);
 		

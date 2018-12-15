@@ -32,6 +32,16 @@ public class Add_Frame extends JFrame {
 	private JTextField majField;
 	private JTextField dirField;
 	private JLabel label_4;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_6;
+	private JTextField textField_7;
+	private JTextField textField_8;
+	private JTabbedPane tabbedPane;
 	/**
 	 * Launch the application.
 	 */
@@ -52,15 +62,16 @@ public class Add_Frame extends JFrame {
 	 * Create the frame.
 	 */
 	public Add_Frame() {
+		setResizable(false);
 		setTitle("\u6DFB\u52A0");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 543, 485);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		setLocationRelativeTo(null);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();
@@ -189,8 +200,115 @@ public class Add_Frame extends JFrame {
 		
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("\u56FE\u4E66\u7BA1\u7406\u5458", null, panel_1, null);
+		panel_1.setLayout(null);
+		
+		JLabel lblId_1 = new JLabel("ID:");
+		lblId_1.setBounds(49, 85, 72, 18);
+		panel_1.add(lblId_1);
+		
+		textField = new JTextField();
+		textField.setBounds(132, 81, 147, 24);
+		panel_1.add(textField);
+		textField.setColumns(10);
+		
+		JLabel label_5 = new JLabel("\u59D3\u540D:");
+		label_5.setBounds(49, 188, 72, 18);
+		panel_1.add(label_5);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(132, 186, 147, 24);
+		panel_1.add(textField_1);
+		textField_1.setColumns(10);
+		
+		JLabel label_6 = new JLabel("\u5BC6\u7801:");
+		label_6.setBounds(49, 291, 72, 18);
+		panel_1.add(label_6);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(132, 291, 147, 24);
+		panel_1.add(textField_2);
+		textField_2.setColumns(10);
+		
+		JButton button_2 = new JButton("\u6DFB\u52A0");
+		button_2.setBounds(383, 182, 113, 27);
+		panel_1.add(button_2);
+		
+		JButton button_3 = new JButton("\u8FD4\u56DE");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		button_3.setBounds(383, 335, 113, 27);
+		panel_1.add(button_3);
 		
 		JPanel panel_2 = new JPanel();
 		tabbedPane.addTab("\u4E66\u7C4D", null, panel_2, null);
+		panel_2.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("ID:");
+		lblNewLabel_1.setBounds(59, 41, 72, 18);
+		panel_2.add(lblNewLabel_1);
+		
+		textField_3 = new JTextField();
+		textField_3.setBounds(171, 36, 135, 24);
+		panel_2.add(textField_3);
+		textField_3.setColumns(10);
+		
+		JLabel lblIsbn = new JLabel("ISBN:");
+		lblIsbn.setBounds(59, 100, 72, 18);
+		panel_2.add(lblIsbn);
+		
+		textField_4 = new JTextField();
+		textField_4.setBounds(171, 96, 135, 24);
+		panel_2.add(textField_4);
+		textField_4.setColumns(10);
+		
+		JLabel label_7 = new JLabel("\u4E66\u540D:");
+		label_7.setBounds(59, 159, 72, 18);
+		panel_2.add(label_7);
+		
+		textField_5 = new JTextField();
+		textField_5.setBounds(171, 156, 135, 24);
+		panel_2.add(textField_5);
+		textField_5.setColumns(10);
+		
+		JLabel label_8 = new JLabel("\u4EF7\u683C:");
+		label_8.setBounds(59, 218, 72, 18);
+		panel_2.add(label_8);
+		
+		textField_6 = new JTextField();
+		textField_6.setBounds(171, 216, 135, 24);
+		panel_2.add(textField_6);
+		textField_6.setColumns(10);
+		
+		JLabel label_9 = new JLabel("\u4F5C\u8005:");
+		label_9.setBounds(59, 277, 72, 18);
+		panel_2.add(label_9);
+		
+		textField_7 = new JTextField();
+		textField_7.setBounds(171, 276, 135, 24);
+		panel_2.add(textField_7);
+		textField_7.setColumns(10);
+		
+		JLabel label_10 = new JLabel("\u51FA\u7248\u65E5\u671F:");
+		label_10.setBounds(59, 336, 72, 18);
+		panel_2.add(label_10);
+		
+		textField_8 = new JTextField();
+		textField_8.setBounds(171, 336, 135, 24);
+		panel_2.add(textField_8);
+		textField_8.setColumns(10);
+		
+		JButton button_4 = new JButton("\u6DFB\u52A0");
+		button_4.setBounds(383, 182, 113, 27);
+		panel_2.add(button_4);
+		
+		JButton button_5 = new JButton("\u8FD4\u56DE");
+		button_5.setBounds(383, 335, 113, 27);
+		panel_2.add(button_5);
+	}
+	public void ChangePage(int a)
+	{
+		this.tabbedPane.setSelectedIndex(a);
 	}
 }
