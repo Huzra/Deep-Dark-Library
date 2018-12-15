@@ -84,8 +84,7 @@ public class Title_Querying_Frame extends JFrame {
 		table .getTableHeader().setReorderingAllowed(false);
 		table.setModel(new DefaultTableModel(
 			null,new String[] {
-				"\u4E66\u53F7", "ISBN", "\u4E66\u540D", "\u4F5C\u8005", "\u5206\u7C7B", "\u4EF7\u683C", "\u51FA\u7248\u65F6\u95F4", "\u5269\u4F59\u5728\u9986\u6570\u91CF"
-			}
+				"\u4E66\u53F7", "ISBN", "\u4E66\u540D", "\u4F5C\u8005", "\u4EF7\u683C", "\u51FA\u7248\u65F6\u95F4"}
 		));
 		
 		scrollPane = new JScrollPane();
@@ -157,7 +156,7 @@ public class Title_Querying_Frame extends JFrame {
 		}
 		Object data[][]=new Object[list.size()][];
 		list.toArray(data);
-	String[] column= {"\u4E66\u53F7", "ISBN", "\u4E66\u540D", "\u4F5C\u8005", "\u5206\u7C7B", "\u4EF7\u683C", "\u51FA\u7248\u65F6\u95F4", "\u9986\u5185\u5269\u4F59\u6570\u91CF"};
+	String[] column= {"\u4E66\u53F7", "ISBN", "\u4E66\u540D", "\u4F5C\u8005", "\u4EF7\u683C", "\u51FA\u7248\u65F6\u95F4",};
 	table = new JTable(data,column);
 	table .getTableHeader().setReorderingAllowed(false);
 	scrollPane.setViewportView(table);

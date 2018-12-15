@@ -4,22 +4,18 @@ public class bookitem {
 	private String bookitemid;		//馆内书号
 	private String bookisbn;		//isbn
 	private String bookname;		//书名
-	private String bookclassid;		//书类号
 	private double price;			//书价
 	private String author;			//作者
 	private String publishdate;		//出版日期
-	private int bookamount;			//书数量
 	
-	bookitem(String itid,String isbn,String bn,String bcid,double p,String a,String pd,int ba)
+	bookitem(String itid,String isbn,String bn,double p,String a,String pd)
 	{
 		this.bookitemid=itid;
 		this.bookisbn=isbn;
 		this.bookname=bn;
-		this.bookclassid=bcid;
 		this.price=p;
 		this.author=a;
 		this.publishdate=pd;
-		this.bookamount=ba;
 	}
 
 	public String getBookitemid() {
@@ -46,13 +42,6 @@ public class bookitem {
 		this.bookname = bookname;
 	}
 
-	public String getBookclassid() {
-		return bookclassid;
-	}
-
-	public void setBookclassid(String bookclassid) {
-		this.bookclassid = bookclassid;
-	}
 
 	public double getPrice() {
 		return price;
@@ -78,28 +67,21 @@ public class bookitem {
 		this.publishdate = publishdate;
 	}
 
-	public int getBookamount() {
-		return bookamount;
-	}
 
-	public void setBookamount(int bookamount) {
-		this.bookamount = bookamount;
-	}
-	
 	public String getAllInfo() {
 		String Info="书本信息：\n"+
 					"isbn："+bookisbn+"\n"+
 					"书名："+bookname+"\n"+
-					"书类号："+bookclassid+"\n"+
+
 					"书价："+price+"\n"+
 					"作者："+author+"\n"+
-					"出版日期："+publishdate+"\n"+
-					"书数量："+bookamount+"\n";
+					"出版日期："+publishdate+"\n";
+
 		return Info;
 	}
 	public Object[] getObject()
 	{
-		Object[] ans= {bookitemid,bookisbn,bookname,author,bookclassid,price,publishdate,bookamount};
+		Object[] ans= {bookitemid,bookisbn,bookname,author,price,publishdate};
 		return ans;
 	}
 }

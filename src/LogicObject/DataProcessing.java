@@ -66,7 +66,6 @@ public class DataProcessing {
 			String pwd=resultSet.getString("password");
 			boolean type=resultSet.getBoolean("type");
 			String ID=resultSet.getString("borrowerid");
-			String CardNo=resultSet.getString("cardno");
 			String department=resultSet.getString("department");
 			if (type)
 			{
@@ -74,8 +73,7 @@ public class DataProcessing {
 				resultSet_1 = statement_1.executeQuery(tempsql);
 				resultSet_1.next();
 				String major=resultSet_1.getString("major");
-				temp = new Undergraduate(ID,CardNo,department,name,type,pwd,major);
-				System.out.println(temp.getPassword());
+				temp = new Undergraduate(ID,department,name,type,pwd,major);
 			}
 			else
 			{
@@ -84,7 +82,7 @@ public class DataProcessing {
 				resultSet_1.next();
 				String major=resultSet_1.getString("major");
 				String director=resultSet_1.getString("director");
-				temp = new GraduatedStu(ID,CardNo,department,name,type,pwd,major,director);
+				temp = new GraduatedStu(ID,department,name,type,pwd,major,director);
 			}
 			borrowers.put(ID, temp);
 		}
@@ -96,13 +94,10 @@ public class DataProcessing {
 			String bookitemid=resultSet.getString("bookitemid");
 			String bookisbn=resultSet.getString("isbn");
 			String bookname=resultSet.getString("bookname");
-			String bookclassid=resultSet.getString("bookclassid");
 			double price=resultSet.getDouble("price");
 			String author=resultSet.getString("author");
-			String publishdate=resultSet.getString("publishdate");
-			int bookamount=resultSet.getInt("bookamount");
-			
-			bitmp= new bookitem(bookitemid,bookisbn,bookname,bookclassid,price,author,publishdate,bookamount);
+			String publishdate=resultSet.getString("publishdate");			
+			bitmp= new bookitem(bookitemid,bookisbn,bookname,price,author,publishdate);
 			if(bookitemid != null&&bitmp!= null) {
 				bookitems.put(bookitemid, bitmp);				
 			}
