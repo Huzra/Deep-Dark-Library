@@ -1,131 +1,53 @@
--- MySQL dump 10.13  Distrib 5.7.20, for Win64 (x86_64)
---
--- Host: localhost    Database: dblm
--- ------------------------------------------------------
--- Server version	5.7.20-log
+/*
+MySQL Backup
+Database: dblm
+Backup Time: 2018-12-15 14:37:32
+*/
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `bookclass`
---
-
-DROP TABLE IF EXISTS `bookclass`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `bookclass` (
-  `bookclassid` varchar(6) NOT NULL,
-  `classname` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`bookclassid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bookclass`
---
-
-LOCK TABLES `bookclass` WRITE;
-/*!40000 ALTER TABLE `bookclass` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bookclass` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `bookitem`
---
-
-DROP TABLE IF EXISTS `bookitem`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS `dblm`.`administrator`;
+DROP TABLE IF EXISTS `dblm`.`bookitem`;
+DROP TABLE IF EXISTS `dblm`.`borrower`;
+DROP TABLE IF EXISTS `dblm`.`graduate`;
+DROP TABLE IF EXISTS `dblm`.`librarian`;
+DROP TABLE IF EXISTS `dblm`.`loan`;
+DROP TABLE IF EXISTS `dblm`.`undergraduate`;
+DROP PROCEDURE IF EXISTS `dblm`.`createalltable`;
+CREATE TABLE `administrator` (
+  `adminid` varchar(6) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`adminid`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
 CREATE TABLE `bookitem` (
   `bookitemid` varchar(6) NOT NULL,
   `isbn` varchar(50) DEFAULT NULL,
   `bookname` varchar(50) DEFAULT NULL,
-  `bookclassid` varchar(6) DEFAULT NULL,
   `price` double DEFAULT NULL,
   `author` varchar(50) DEFAULT NULL,
   `publishdate` date DEFAULT NULL,
-  `bookamount` int(2) DEFAULT NULL,
   PRIMARY KEY (`bookitemid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bookitem`
---
-
-LOCK TABLES `bookitem` WRITE;
-/*!40000 ALTER TABLE `bookitem` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bookitem` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `borrower`
---
-
-DROP TABLE IF EXISTS `borrower`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
 CREATE TABLE `borrower` (
   `borrowerid` varchar(6) NOT NULL,
-  `cardno` varchar(50) NOT NULL,
   `department` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `type` tinyint(1) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`borrowerid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `borrower`
---
-
-LOCK TABLES `borrower` WRITE;
-/*!40000 ALTER TABLE `borrower` DISABLE KEYS */;
-INSERT INTO `borrower` VALUES ('000001','123','计算机科学与技术','阿颖',1,'12321'),('000002','111','计算机科学与技术','阿淇',1,'12321');
-/*!40000 ALTER TABLE `borrower` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `graduate`
---
-
-DROP TABLE IF EXISTS `graduate`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
 CREATE TABLE `graduate` (
   `borrowerid` varchar(6) NOT NULL,
   `director` varchar(50) DEFAULT NULL,
   `major` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`borrowerid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `graduate`
---
-
-LOCK TABLES `graduate` WRITE;
-/*!40000 ALTER TABLE `graduate` DISABLE KEYS */;
-/*!40000 ALTER TABLE `graduate` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `loan`
---
-
-DROP TABLE IF EXISTS `loan`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
+CREATE TABLE `librarian` (
+  `librarianid` varchar(6) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`librarianid`)
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
 CREATE TABLE `loan` (
   `loanid` varchar(6) NOT NULL,
   `borrowerid` varchar(6) NOT NULL,
@@ -135,49 +57,110 @@ CREATE TABLE `loan` (
   `isreturned` tinyint(1) DEFAULT '0',
   `bookitemid` varchar(6) DEFAULT NULL,
   PRIMARY KEY (`loanid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `loan`
---
-
-LOCK TABLES `loan` WRITE;
-/*!40000 ALTER TABLE `loan` DISABLE KEYS */;
-/*!40000 ALTER TABLE `loan` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `undergraduate`
---
-
-DROP TABLE IF EXISTS `undergraduate`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
 CREATE TABLE `undergraduate` (
   `borrowerid` varchar(6) NOT NULL,
   `major` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`borrowerid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB DEFAULT CHARSET=gbk;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `createalltable`()
+begin
+create table borrower
+(
+borrowerid varchar(6) not null primary key,
+department varchar(50),
+name varchar(50),
+type tinyint(1),
+password varchar(50)
+);
 
---
--- Dumping data for table `undergraduate`
---
+create table graduate
+(
+borrowerid varchar(6) not null primary key references borrower(borrowerid),
+director varchar(50),
+major varchar(50)
+);
 
-LOCK TABLES `undergraduate` WRITE;
-/*!40000 ALTER TABLE `undergraduate` DISABLE KEYS */;
-INSERT INTO `undergraduate` VALUES ('000001','软件工程'),('000002','软件工程');
-/*!40000 ALTER TABLE `undergraduate` ENABLE KEYS */;
+create table undergraduate
+(
+borrowerid varchar(6) not null primary key references borrower(borrowerid),
+major varchar(50)
+);
+
+create table loan
+(
+loanid varchar(6) not null primary key,
+borrowerid varchar(6) not null references borrower(borrowerid),
+loandate date,
+duedate date,
+bookisbn varchar(50),
+isreturned tinyint(1) default 0,
+bookitemid varchar(6) references bookitem(bookitemid)
+);
+
+create table bookitem
+(
+bookitemid varchar(6) not null primary key,
+isbn varchar(50),
+bookname varchar(50),
+price real,
+author varchar(50),
+publishdate date
+);
+
+create table administrator
+(
+adminid varchar(6) not null primary key,
+name varchar(50),
+password varchar(50)
+);
+
+create table librarian
+(
+librarianid varchar(6) not null primary key,
+name varchar(50),
+password varchar(50)
+);
+
+end;
+BEGIN;
+LOCK TABLES `dblm`.`administrator` WRITE;
+DELETE FROM `dblm`.`administrator`;
+INSERT INTO `dblm`.`administrator` (`adminid`,`name`,`password`) VALUES ('000001', '胡自然', '123456');
 UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2018-12-14 20:26:04
+COMMIT;
+BEGIN;
+LOCK TABLES `dblm`.`bookitem` WRITE;
+DELETE FROM `dblm`.`bookitem`;
+INSERT INTO `dblm`.`bookitem` (`bookitemid`,`isbn`,`bookname`,`price`,`author`,`publishdate`) VALUES ('100000', 'a', '编译原理', 12, '姚老师', '2011-01-01'),('100001', 'a', '编译原理', 12, '姚老师', '2011-01-01'),('200000', 'b', '体系结构', 55, '刘维', '2011-02-02');
+UNLOCK TABLES;
+COMMIT;
+BEGIN;
+LOCK TABLES `dblm`.`borrower` WRITE;
+DELETE FROM `dblm`.`borrower`;
+INSERT INTO `dblm`.`borrower` (`borrowerid`,`department`,`name`,`type`,`password`) VALUES ('000000', '计算机', '阿钦', 1, '123456'),('000002', '计算机', '阿淇', 1, '123456'),('000003', '计算机', '阿颖', 1, '123456');
+UNLOCK TABLES;
+COMMIT;
+BEGIN;
+LOCK TABLES `dblm`.`graduate` WRITE;
+DELETE FROM `dblm`.`graduate`;
+UNLOCK TABLES;
+COMMIT;
+BEGIN;
+LOCK TABLES `dblm`.`librarian` WRITE;
+DELETE FROM `dblm`.`librarian`;
+INSERT INTO `dblm`.`librarian` (`librarianid`,`name`,`password`) VALUES ('000001', '书管', '123456');
+UNLOCK TABLES;
+COMMIT;
+BEGIN;
+LOCK TABLES `dblm`.`loan` WRITE;
+DELETE FROM `dblm`.`loan`;
+INSERT INTO `dblm`.`loan` (`loanid`,`borrowerid`,`loandate`,`duedate`,`bookisbn`,`isreturned`,`bookitemid`) VALUES ('123', '000001', '2017-12-12', '2018-02-02', 'a', 0, '100000'),('124', '000002', '2015-04-06', '2015-05-04', 'b', 0, '200000');
+UNLOCK TABLES;
+COMMIT;
+BEGIN;
+LOCK TABLES `dblm`.`undergraduate` WRITE;
+DELETE FROM `dblm`.`undergraduate`;
+INSERT INTO `dblm`.`undergraduate` (`borrowerid`,`major`) VALUES ('000001', '软件工程'),('000002', '软件工程'),('000003', '软件工程');
+UNLOCK TABLES;
+COMMIT;

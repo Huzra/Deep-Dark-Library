@@ -7,22 +7,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import LogicObject.Borrower;
 import LogicObject.DataProcessing;
-import LogicObject.bookitem;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Enumeration;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -39,7 +31,7 @@ public class Title_Borrowing_Frame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Title_Borrowing_Frame frame = new Title_Borrowing_Frame(null);
+					Title_Borrowing_Frame frame = new Title_Borrowing_Frame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +43,7 @@ public class Title_Borrowing_Frame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Title_Borrowing_Frame(Borrower borrower) {
+	public Title_Borrowing_Frame() {
 		setTitle("\u501F\u4E66\u754C\u9762");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -59,7 +51,7 @@ public class Title_Borrowing_Frame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
+		setLocationRelativeTo(null);
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);

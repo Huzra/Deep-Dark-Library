@@ -57,9 +57,23 @@ public class LibAdmin_MainFrame extends JFrame {
 		menuBar.add(Logout);
 		
 		JMenu Borrow = new JMenu("\u501F\u51FA");
+		Borrow.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Title_Borrowing_Frame frame=new Title_Borrowing_Frame();
+				frame.setVisible(true);
+			}
+		});
 		menuBar.add(Borrow);
 		
 		JMenu Return = new JMenu("\u5F52\u8FD8");
+		Return.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Title_Returning_Frame frame=new Title_Returning_Frame();
+				frame.setVisible(true);
+			}
+		});
 		menuBar.add(Return);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
