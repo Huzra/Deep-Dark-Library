@@ -20,6 +20,8 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -90,6 +92,31 @@ public class Title_Borrowing_Frame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
+				String BorrowerID=textField.getText();
+				String BookId=textField_1.getText();
+				if(DataProcessing.searchBorrower(BorrowerID)==null)
+				{
+					JOptionPane.showMessageDialog(null, "未找到该借阅者");
+				}
+				else if(DataProcessing.searchbookitem(BookId)==null)
+				{
+					JOptionPane.showMessageDialog(null, "未找到该图书");
+				}
+				else
+				{
+					
+					try {
+						DataProcessing.updateborrow(BorrowerID, BookId);
+						JOptionPane.showMessageDialog(null, "借书成功");
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				}
 				
 			}
 		});

@@ -14,7 +14,7 @@ public class Undergraduate extends Borrower{
 	{
 		this.major=Major;
 	}
-	public String getAllInfo()
+	public String GetAllInfo()
 	{
 		String info=super.GetAllInfo()+
 					"רҵ:"+major;

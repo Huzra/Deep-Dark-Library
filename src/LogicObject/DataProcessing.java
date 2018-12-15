@@ -7,7 +7,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -18,7 +21,7 @@ public class DataProcessing {
 	public static void main(String[] args) {
 		
 	}
-	private static int creloanid=10000;
+	private static int creloanid;
 	private static Connection connection;
 	private static Statement statement;
 	private static Statement statement_1;
@@ -124,20 +127,16 @@ public class DataProcessing {
 			else
 				{
 					ArrayList<loan> list=loans.get(borrowerid);
-					boolean tmp=true;		//临时判定变量
-					for(int i=0;i<list.size();i++) {
-						if(list.get(i).getLoanid().equals(loanid)){		//判断list中已经有该借阅号信息（是否）
-							tmp=false;									//false则list无法add
-							list.set(i, ltmp);							//有相同借阅号就覆盖更新
-						}
-					}
-					if(tmp) {											//wincen:重复的记录不add到list中
-						list.add(ltmp);
-					}
-					creloanid=Integer.parseInt(ltmp.getLoanid())+1;
+					list.add(ltmp);
 					loans.put(borrowerid, list);
 				}
+			creloanid=Integer.parseInt(loanid)+1;
 		}
+	}
+	public static Enumeration<ArrayList<loan>> getAllLoan()
+	{
+		Enumeration<ArrayList<loan>> e  = loans.elements();
+		return e;
 	}
 	public static Enumeration<bookitem> getAllBook()
 	{
@@ -162,9 +161,10 @@ public class DataProcessing {
 		return null;
 	}
 	public static Borrower searchBorrower(String ID){
-		Borrower temp=null;
-		temp=borrowers.get(ID);
-		return temp;
+		if(borrowers.containsKey(ID))
+			return borrowers.get(ID);
+		else
+			return null;
 	}
 	public static bookitem searchbookitem(String bitid) {
 		bookitem bitmp=null;
@@ -182,37 +182,38 @@ public class DataProcessing {
 		ArrayList<loan> list=loans.get(borrowerid);
 		return list;
 	}
-	
+
 	public static boolean updateborrow(String browid,String bookid) throws ClassNotFoundException, SQLException
 	{
-		Enumeration<bookitem> En;
-		En = DataProcessing.getAllBook();
-		while(En.hasMoreElements()){
-			bookitem temp = En.nextElement();
-			if(temp.getBookitemid().equals(bookid)) 
-			{
-				
-			}
 		if(!connectedToDB)
 			throw new SQLException("无法连接到数据库");
-		//判断bookamount是否大于0
-		String basql="select bookamount from bookitem where bookitemid="+bookid;
-		resultSet=statement.executeQuery(basql);
-		resultSet.next(); 
-		if(resultSet.getInt("bookamount")<=0) return false;
-		
+		Calendar cal = Calendar.getInstance();
+		Date date = cal.getTime();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String LoanDate = formatter.format(date);
+		cal.add(Calendar.DATE, 30);
+		date = cal.getTime();
+		String DueDate = formatter.format(date);
+		ArrayList<loan> ls= loans.get(browid);
+		bookitem book=bookitems.get(bookid);
+		loan ltp=new loan(Integer.toString(creloanid),browid,LoanDate,DueDate,book.getBookisbn(),false,bookid);
+		ls.add(ltp);
+		loans.put(browid, ls);
 		//更新数据库
-		String sql0="update bookitem set bookamount=bookamount-1 where bookitemid="+bookid;
-		String sql1="insert into loan values('"+Integer.toString(creloanid)+"','"+browid+"','2018-12-15','2019-1-15','a',0,'"+bookid+"')";
+		String sql1="insert into loan values('"+Integer.toString(creloanid)+"','"+browid+"','"+LoanDate+"','"+DueDate+"',"+"'"+book.getBookisbn()+"'"+",0,'"+bookid+"')";
 		creloanid++;	//自增借书记录号
-		if(!statement.execute(sql0)) System.out.println("更新booktiem");
 		if(!statement.execute(sql1)) System.out.println("更新loan");
-		init();
-
-		}
 		return true;
 	}
-	
+	public static boolean returnbook(String id,ArrayList<loan> ln,String loanID) throws SQLException
+	{
+		if(!connectedToDB)
+			throw new SQLException("无法连接到数据库");
+		loans.put(id, ln);
+		String sql1="UPDATE loan SET isreturned=1 WHERE loanid="+"'"+loanID+"'";
+		statement.execute(sql1);
+		return true;
+	}
 	
 	
 	public static  void connectToDB(String driverName) throws SQLException, ClassNotFoundException{

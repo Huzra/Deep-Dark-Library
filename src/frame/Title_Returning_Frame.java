@@ -1,14 +1,20 @@
 package frame;
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import LogicObject.DataProcessing;
+import LogicObject.loan;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.awt.event.ActionEvent;
 
 public class Title_Returning_Frame extends JFrame {
 
@@ -57,6 +63,35 @@ public class Title_Returning_Frame extends JFrame {
 		textField.setColumns(10);
 		
 		JButton button = new JButton("\u5F52\u8FD8");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Enumeration<ArrayList<loan>> ln=DataProcessing.getAllLoan();
+				ArrayList<loan> temp;
+				loan ltp;
+				set:
+				while(ln.hasMoreElements())
+				{
+					temp=ln.nextElement();
+					for(int i=0;i<temp.size();i++)
+					{
+						ltp=temp.get(i);
+						if(ltp.getBookitemid().equals(textField.getText())) {
+							ltp.setIsreturned(true);
+							temp.set(i, ltp);
+							String str=ltp.getBorrowerid();
+							try {
+								if(DataProcessing.returnbook(str,temp,ltp.getLoanid()))
+									JOptionPane.showMessageDialog(null, "还书成功");
+							} catch (SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break set;
+						}
+					}
+				}
+			}
+		});
 		button.setBounds(139, 150, 113, 27);
 		panel.add(button);
 	}
