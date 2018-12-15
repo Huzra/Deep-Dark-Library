@@ -214,8 +214,55 @@ public class DataProcessing {
 		statement.execute(sql1);
 		return true;
 	}
-	
-	
+	public static boolean insertborrower(String name,String ID,String department,String pas,boolean type,String major) throws SQLException
+	{
+		if(!connectedToDB)
+			throw new SQLException("无法连接到数据库");
+		if(borrowers.containsKey(ID))
+		{
+			return false;
+		}
+		Undergraduate temp=new Undergraduate(ID,department,name,true,pas,major);
+		borrowers.put(ID, temp);
+		String sql="insert into borrower values('"+ID+"','"+department+"','"+name+"','"+1+"','"+pas+"')";
+		statement.execute(sql);
+		sql="insert into Undergraduate values('"+ID+"','"+major+"')";
+		statement.execute(sql);
+		return true;
+	}
+	public static boolean insertborrower(String name,String ID,String department,String pas,boolean type,String major,String director) throws SQLException
+	{
+		if(!connectedToDB)
+			throw new SQLException("无法连接到数据库");
+		if(borrowers.containsKey(ID))
+		{
+			return false;
+		}
+		GraduatedStu temp=new GraduatedStu(ID,department,name,true,pas,major,director);
+		borrowers.put(ID, temp);
+		String sql="insert into borrower values('"+ID+"','"+department+"','"+name+"','"+0+"','"+pas+"')";
+		statement.execute(sql);
+		sql="insert into graduate values('"+ID+"','"+director+"','"+major+"')";
+		statement.execute(sql);
+		return true;
+	}
+	public static boolean deleteborrower(String ID) throws SQLException
+	{
+		Borrower temp=DataProcessing.searchBorrower(ID);
+		if(temp==null)
+		{
+			return false;
+		}
+		String sql="delete from borrower where borrowerid='"+ID+"'";
+		statement.execute(sql);
+		if(temp.getType())
+			sql="delete from Undergraduate where borrowerid='"+ID+"'";
+		else
+			sql="delete from graduate where borrowerid='"+ID+"'";
+		statement.execute(sql);
+		borrowers.remove(ID);
+		return true;
+	}
 	public static  void connectToDB(String driverName) throws SQLException, ClassNotFoundException{
 		Class.forName(driverName);		
 		connection=DriverManager.getConnection(url, user, password);

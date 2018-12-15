@@ -58,9 +58,26 @@ public class SysAdmin_MainFrame extends JFrame {
 		menuBar.add(Logout_Button);
 		
 		JMenu UserManagement = new JMenu("\u7528\u6237\u7BA1\u7406");
+		UserManagement.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Management_Frame frame=new Management_Frame();
+				frame.ChangePage(0);
+				frame.setVisible(true);
+
+			}
+		});
 		menuBar.add(UserManagement);
 		
 		JMenu TitleManagement = new JMenu("\u4E66\u76EE\u7BA1\u7406");
+		TitleManagement.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Management_Frame frame=new Management_Frame();
+				frame.ChangePage(2);
+				frame.setVisible(true);
+			}
+		});
 		menuBar.add(TitleManagement);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

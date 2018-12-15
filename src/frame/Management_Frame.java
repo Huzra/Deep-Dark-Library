@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +25,9 @@ import java.util.Enumeration;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 
 public class Management_Frame extends JFrame {
 
@@ -35,6 +39,7 @@ public class Management_Frame extends JFrame {
 	private JTextField textField_2;
 	private JTable table_2;
 	private JScrollPane scrollPane;
+	JTabbedPane tabbedPane;
 	/**
 	 * Launch the application.
 	 */
@@ -56,14 +61,14 @@ public class Management_Frame extends JFrame {
 	 */
 	public Management_Frame() {
 		setTitle("\u7BA1\u7406\u754C\u9762");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 649, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		setLocationRelativeTo(null);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(5, 5, 621, 543);
 		contentPane.add(tabbedPane);
 		
@@ -72,12 +77,15 @@ public class Management_Frame extends JFrame {
 		Borrower_panel.setLayout(null);
 		
 		JButton button = new JButton("\u6DFB\u52A0");
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Add_Frame frame=new Add_Frame();
+				frame.setVisible(true);
+			}
+		});
 		button.setBounds(69, 13, 113, 27);
 		Borrower_panel.add(button);
-		
-		JButton button_1 = new JButton("\u4FEE\u6539");
-		button_1.setBounds(251, 13, 113, 27);
-		Borrower_panel.add(button_1);
 		
 		textField = new JTextField();
 		textField.setBounds(122, 98, 305, 24);
@@ -99,6 +107,20 @@ public class Management_Frame extends JFrame {
 		Borrower_panel.add(button_2);
 		
 		JButton button_3 = new JButton("\u5220\u9664");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String ID=(String)table.getValueAt(table.getSelectedRow(),0);
+				try {
+					if(DataProcessing.deleteborrower(ID))
+						JOptionPane.showMessageDialog(null, "É¾³ý³É¹¦");
+					else
+						JOptionPane.showMessageDialog(null, "É¾³ýÊ§°Ü");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		button_3.setBounds(433, 13, 113, 27);
 		Borrower_panel.add(button_3);
 		
@@ -139,10 +161,6 @@ public class Management_Frame extends JFrame {
 		JButton button_8 = new JButton("\u6DFB\u52A0");
 		button_8.setBounds(69, 13, 113, 27);
 		Librarian_panel.add(button_8);
-		
-		JButton button_9 = new JButton("\u4FEE\u6539");
-		button_9.setBounds(251, 13, 113, 27);
-		Librarian_panel.add(button_9);
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
@@ -197,6 +215,10 @@ public class Management_Frame extends JFrame {
 		JButton button_7 = new JButton("\u5220\u9664");
 		button_7.setBounds(433, 13, 113, 27);
 		Title_panel.add(button_7);
+	}
+	public void ChangePage(int a)
+	{
+		this.tabbedPane.setSelectedIndex(a);
 	}
 	public void searchBorrower(int i)
 	{
