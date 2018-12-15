@@ -6,11 +6,24 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import LogicObject.Borrower;
+import LogicObject.DataProcessing;
+import LogicObject.bookitem;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 public class Management_Frame extends JFrame {
 
@@ -21,7 +34,7 @@ public class Management_Frame extends JFrame {
 	private JTable table_1;
 	private JTextField textField_2;
 	private JTable table_2;
-
+	private JScrollPane scrollPane;
 	/**
 	 * Launch the application.
 	 */
@@ -72,20 +85,52 @@ public class Management_Frame extends JFrame {
 		textField.setColumns(10);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(14, 98, 37, 24);
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"\u5168\u90E8", "ID"}));
+		comboBox.setBounds(14, 98, 59, 24);
 		Borrower_panel.add(comboBox);
 		
 		JButton button_2 = new JButton("\u67E5\u8BE2");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchBorrower(comboBox.getSelectedIndex());
+			}
+		});
 		button_2.setBounds(489, 97, 113, 27);
 		Borrower_panel.add(button_2);
-		
-		table = new JTable();
-		table.setBounds(14, 130, 588, 368);
-		Borrower_panel.add(table);
 		
 		JButton button_3 = new JButton("\u5220\u9664");
 		button_3.setBounds(433, 13, 113, 27);
 		Borrower_panel.add(button_3);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(14, 130, 588, 318);
+		Borrower_panel.add(scrollPane);
+		table = new JTable();
+		table.setEnabled(false);
+		table .getTableHeader().setReorderingAllowed(false);
+		table.setModel(new DefaultTableModel(
+			null,new String[] {
+				"ID","姓名","学院"}
+		));
+		scrollPane.setViewportView(table);
+		
+		JButton button_12 = new JButton("\u8BE6\u7EC6\u4FE1\u606F");
+		button_12.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String ID=(String)table.getValueAt(table.getSelectedRow(),0);
+				Borrower borrower=DataProcessing.searchBorrower(ID);
+				Info_Frame frame=new Info_Frame();
+				frame.setTitle("借阅者信息");
+				frame.setText(borrower.GetAllInfo());
+				frame.setVisible(true);
+			}
+		});
+		button_12.setBounds(489, 471, 113, 27);
+		Borrower_panel.add(button_12);
+		
+		JButton button_13 = new JButton("\u8FD4\u56DE");
+		button_13.setBounds(14, 471, 113, 27);
+		Borrower_panel.add(button_13);
 		
 		JPanel Librarian_panel = new JPanel();
 		Librarian_panel.setLayout(null);
@@ -152,5 +197,40 @@ public class Management_Frame extends JFrame {
 		JButton button_7 = new JButton("\u5220\u9664");
 		button_7.setBounds(433, 13, 113, 27);
 		Title_panel.add(button_7);
+	}
+	public void searchBorrower(int i)
+	{
+		Enumeration<Borrower> En;
+		En = DataProcessing.getAllBorrower();
+		Borrower temp;
+		List<Object[]> list = new ArrayList<Object[]>();
+		if(i==0)
+		{
+			while(En.hasMoreElements())
+			{
+				temp=En.nextElement();
+				Object[] tmp= {temp.getBorrowerID(),temp.getName(),temp.getDepartment()};
+					list.add(tmp);
+			}
+		}
+		if(i==1)
+		{
+			while(En.hasMoreElements())
+			{
+				
+				temp=En.nextElement();
+				if(temp.getBorrowerID().equals(textField.getText()))
+				{
+					Object[] tmp= {temp.getBorrowerID(),temp.getName(),temp.getDepartment()};
+					list.add(tmp);
+				}
+			}
+		}
+		Object data[][]=new Object[list.size()][];
+		list.toArray(data);
+		String[] column= {"ID","姓名","学院"};
+		table = new JTable(data,column);
+		table .getTableHeader().setReorderingAllowed(false);
+		scrollPane.setViewportView(table);
 	}
 }

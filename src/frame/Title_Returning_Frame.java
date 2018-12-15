@@ -48,7 +48,7 @@ public class Title_Returning_Frame extends JFrame {
 		panel.setLayout(null);
 		
 		JLabel label = new JLabel("\u56FE\u4E66\u53F7:");
-		label.setBounds(100, 52, 72, 18);
+		label.setBounds(93, 52, 72, 18);
 		panel.add(label);
 		
 		textField = new JTextField();
