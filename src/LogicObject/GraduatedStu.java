@@ -27,6 +27,7 @@ public class GraduatedStu extends Borrower {
 	public String GetAllInfo()
 	{
 		String info=super.GetAllInfo()+
+					"类别:研究生\n"+
 					"专业:"+major+"\n"+
 					"导师:"+director;
 		return info;

@@ -275,7 +275,7 @@ public class Add_Frame extends JFrame {
 		panel_2.add(bnfld);
 		bnfld.setColumns(10);
 		
-		JLabel label_8 = new JLabel("\u4EF7\u683C(\u6574\u6570):");
+		JLabel label_8 = new JLabel("\u4EF7\u683C:");
 		label_8.setBounds(59, 218, 84, 18);
 		panel_2.add(label_8);
 		
@@ -283,17 +283,16 @@ public class Add_Frame extends JFrame {
 		pfld.setBounds(171, 216, 135, 24);
 		panel_2.add(pfld);
 		pfld.setColumns(10);
-		
-		JLabel label_9 = new JLabel("\u4F5C\u8005:");
-		label_9.setBounds(59, 277, 72, 18);
-		panel_2.add(label_9);
+		JLabel lbln = new JLabel("\u4F5C\u8005:");
+		lbln.setBounds(59, 277, 72, 18);
+		panel_2.add(lbln);
 		
 		aufld = new JTextField();
 		aufld.setBounds(171, 276, 135, 24);
 		panel_2.add(aufld);
 		aufld.setColumns(10);
 		
-		JLabel lblyyyymmdd = new JLabel("<html><body>" + "\u51FA\u7248\u65E5\u671F:" +"<br>"+"(YYYY-MM--DD)"+"<body></html>");
+		JLabel lblyyyymmdd = new JLabel("<html><body>\u51FA\u7248\u65E5\u671F:<br>(YYYY-MM-DD)<body></html>");
 		lblyyyymmdd.setBounds(59, 327, 113, 57);
 		panel_2.add(lblyyyymmdd);
 		
@@ -303,13 +302,17 @@ public class Add_Frame extends JFrame {
 		pdatefld.setColumns(10);
 		
 		JButton button_4 = new JButton("\u6DFB\u52A0");
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		button_4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String bkid=bkidfld.getText();
 				String isbn=isbnfld.getText();
 				String bn=bnfld.getText();
-				double p=Integer.parseInt(pfld.getText());
+				double p=Double.parseDouble(pfld.getText());
 				String au=aufld.getText();
 				String pdate=pdatefld.getText();
 				

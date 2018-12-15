@@ -17,6 +17,7 @@ public class Undergraduate extends Borrower{
 	public String GetAllInfo()
 	{
 		String info=super.GetAllInfo()+
+					"类别:本科生\n"+
 					"专业:"+major;
 	return info;
 	}
