@@ -263,6 +263,37 @@ public class DataProcessing {
 		borrowers.remove(ID);
 		return true;
 	}
+	public static boolean deletebookitem(String ID) throws SQLException {
+		// TODO Auto-generated method stub
+		bookitem temp=DataProcessing.searchbookitem(ID);
+		if(temp==null)
+		{
+			return false;
+		}
+		String sql="delete from bookitem where bookitemid='"+ID+"'";
+		if(!statement.execute(sql))
+		{
+			bookitems.remove(ID);
+			return true;
+		}
+		return false;
+	}
+	public static boolean insertbookitem(String bkid, String isbn, String bn, double p, String au, String pdate) throws SQLException{
+		// TODO Auto-generated method stub
+		if(bookitems.contains(bkid))
+		{
+			return false;
+		}
+		bookitem temp=new bookitem(bkid,isbn,bn,p,au,pdate);
+		String sql="insert into bookitem values('"+bkid+"','"+isbn+"','"+bn+"',"+p+",'"+au+"','"+pdate+"')";
+		if(!statement.execute(sql))
+		{
+			bookitems.put(bkid, temp);
+			return true;
+		}
+		return false;
+	}
+	
 	public static  void connectToDB(String driverName) throws SQLException, ClassNotFoundException{
 		Class.forName(driverName);		
 		connection=DriverManager.getConnection(url, user, password);

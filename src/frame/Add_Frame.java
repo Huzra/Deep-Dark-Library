@@ -2,6 +2,7 @@ package frame;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -21,6 +22,8 @@ import java.sql.SQLException;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Add_Frame extends JFrame {
 
@@ -35,12 +38,12 @@ public class Add_Frame extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
+	private JTextField bkidfld;
+	private JTextField isbnfld;
+	private JTextField bnfld;
+	private JTextField pfld;
+	private JTextField aufld;
+	private JTextField pdatefld;
 	private JTabbedPane tabbedPane;
 	/**
 	 * Launch the application.
@@ -249,57 +252,83 @@ public class Add_Frame extends JFrame {
 		lblNewLabel_1.setBounds(59, 41, 72, 18);
 		panel_2.add(lblNewLabel_1);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(171, 36, 135, 24);
-		panel_2.add(textField_3);
-		textField_3.setColumns(10);
+		bkidfld = new JTextField();
+		bkidfld.setBounds(171, 36, 135, 24);
+		panel_2.add(bkidfld);
+		bkidfld.setColumns(10);
 		
 		JLabel lblIsbn = new JLabel("ISBN:");
 		lblIsbn.setBounds(59, 100, 72, 18);
 		panel_2.add(lblIsbn);
 		
-		textField_4 = new JTextField();
-		textField_4.setBounds(171, 96, 135, 24);
-		panel_2.add(textField_4);
-		textField_4.setColumns(10);
+		isbnfld = new JTextField();
+		isbnfld.setBounds(171, 96, 135, 24);
+		panel_2.add(isbnfld);
+		isbnfld.setColumns(10);
 		
 		JLabel label_7 = new JLabel("\u4E66\u540D:");
 		label_7.setBounds(59, 159, 72, 18);
 		panel_2.add(label_7);
 		
-		textField_5 = new JTextField();
-		textField_5.setBounds(171, 156, 135, 24);
-		panel_2.add(textField_5);
-		textField_5.setColumns(10);
+		bnfld = new JTextField();
+		bnfld.setBounds(171, 156, 135, 24);
+		panel_2.add(bnfld);
+		bnfld.setColumns(10);
 		
-		JLabel label_8 = new JLabel("\u4EF7\u683C:");
-		label_8.setBounds(59, 218, 72, 18);
+		JLabel label_8 = new JLabel("\u4EF7\u683C(\u6574\u6570):");
+		label_8.setBounds(59, 218, 84, 18);
 		panel_2.add(label_8);
 		
-		textField_6 = new JTextField();
-		textField_6.setBounds(171, 216, 135, 24);
-		panel_2.add(textField_6);
-		textField_6.setColumns(10);
+		pfld = new JTextField();
+		pfld.setBounds(171, 216, 135, 24);
+		panel_2.add(pfld);
+		pfld.setColumns(10);
 		
 		JLabel label_9 = new JLabel("\u4F5C\u8005:");
 		label_9.setBounds(59, 277, 72, 18);
 		panel_2.add(label_9);
 		
-		textField_7 = new JTextField();
-		textField_7.setBounds(171, 276, 135, 24);
-		panel_2.add(textField_7);
-		textField_7.setColumns(10);
+		aufld = new JTextField();
+		aufld.setBounds(171, 276, 135, 24);
+		panel_2.add(aufld);
+		aufld.setColumns(10);
 		
-		JLabel label_10 = new JLabel("\u51FA\u7248\u65E5\u671F:");
-		label_10.setBounds(59, 336, 72, 18);
-		panel_2.add(label_10);
+		JLabel lblyyyymmdd = new JLabel("<html><body>" + "\u51FA\u7248\u65E5\u671F:" +"<br>"+"(YYYY-MM--DD)"+"<body></html>");
+		lblyyyymmdd.setBounds(59, 327, 113, 57);
+		panel_2.add(lblyyyymmdd);
 		
-		textField_8 = new JTextField();
-		textField_8.setBounds(171, 336, 135, 24);
-		panel_2.add(textField_8);
-		textField_8.setColumns(10);
+		pdatefld = new JTextField();
+		pdatefld.setBounds(171, 336, 135, 24);
+		panel_2.add(pdatefld);
+		pdatefld.setColumns(10);
 		
 		JButton button_4 = new JButton("\u6DFB\u52A0");
+		button_4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String bkid=bkidfld.getText();
+				String isbn=isbnfld.getText();
+				String bn=bnfld.getText();
+				double p=Integer.parseInt(pfld.getText());
+				String au=aufld.getText();
+				String pdate=pdatefld.getText();
+				
+				try {
+					if(DataProcessing.insertbookitem(bkid,isbn,bn,p,au,pdate))
+					{
+						JOptionPane.showMessageDialog(null, "添加成功");
+					}
+					else
+						JOptionPane.showMessageDialog(null, "添加失败");
+				} catch (HeadlessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		button_4.setBounds(383, 182, 113, 27);
 		panel_2.add(button_4);
 		

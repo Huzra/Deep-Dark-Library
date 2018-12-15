@@ -39,6 +39,8 @@ public class Management_Frame extends JFrame {
 	private JTextField textField_2;
 	private JTable table_2;
 	private JScrollPane scrollPane;
+	private JScrollPane scrollPane_1;
+	private JScrollPane scrollPane_2;
 	JTabbedPane tabbedPane;
 	/**
 	 * Launch the application.
@@ -194,6 +196,8 @@ public class Management_Frame extends JFrame {
 		button_11.setBounds(433, 13, 113, 27);
 		Librarian_panel.add(button_11);
 		
+		//书籍管理
+		
 		JPanel Title_panel = new JPanel();
 		Title_panel.setLayout(null);
 		tabbedPane.addTab("书籍", null, Title_panel, null);
@@ -210,6 +214,10 @@ public class Management_Frame extends JFrame {
 		Title_panel.add(button_4);
 		
 		JButton button_5 = new JButton("\u4FEE\u6539");
+		button_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		button_5.setBounds(251, 13, 113, 27);
 		Title_panel.add(button_5);
 		
@@ -218,19 +226,51 @@ public class Management_Frame extends JFrame {
 		textField_1.setBounds(122, 98, 305, 24);
 		Title_panel.add(textField_1);
 		
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(14, 130, 588, 318);
+		Title_panel.add(scrollPane_1);
+		table_1 = new JTable();
+		table_1.setEnabled(false);
+		table_1 .getTableHeader().setReorderingAllowed(false);
+		table_1.setModel(new DefaultTableModel(
+			null,new String[] {
+					"书本号","isbn","书名","书价","作者","出版日期"}
+		));
+		scrollPane_1.setViewportView(table_1);
+		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(14, 98, 37, 24);
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"\u5168\u90E8", "\u4E66\u540D", "ID"}));
+		comboBox_1.setBounds(14, 98, 59, 24);
 		Title_panel.add(comboBox_1);
 		
 		JButton button_6 = new JButton("\u67E5\u8BE2");
+		button_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchBookitem(comboBox_1.getSelectedIndex());
+			}
+		});
 		button_6.setBounds(489, 97, 113, 27);
 		Title_panel.add(button_6);
 		
-		table_1 = new JTable();
-		table_1.setBounds(14, 130, 588, 368);
-		Title_panel.add(table_1);
-		
 		JButton button_7 = new JButton("\u5220\u9664");
+		button_7.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String ID=(String)table_1.getValueAt(table_1.getSelectedRow(), 0);
+				
+				try {
+					if(DataProcessing.deletebookitem(ID))
+					{
+						JOptionPane.showMessageDialog(null, "删除成功");
+					}
+					else JOptionPane.showMessageDialog(null, "删除失败");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
 		button_7.setBounds(433, 13, 113, 27);
 		Title_panel.add(button_7);
 	}
@@ -272,5 +312,43 @@ public class Management_Frame extends JFrame {
 		table = new JTable(data,column);
 		table .getTableHeader().setReorderingAllowed(false);
 		scrollPane.setViewportView(table);
+	}
+	
+	public void searchBookitem(int index) {
+		Enumeration<bookitem> En;
+		En = DataProcessing.getAllBook();
+		bookitem temp;
+		List<Object[]> list = new ArrayList<Object[]>();
+		if(index==0) {
+			while(En.hasMoreElements()) {
+				temp=En.nextElement();
+				Object[] tmp= {temp.getBookitemid(),temp.getBookisbn(),temp.getBookname(),temp.getPrice(),temp.getAuthor(),temp.getPublishdate()};
+				list.add(tmp);
+			}
+		}
+		if(index==1) {
+			while(En.hasMoreElements()) {
+				temp=En.nextElement();
+				if(temp.getBookname().equals(textField_1.getText())) {
+					Object[] tmp= {temp.getBookitemid(),temp.getBookisbn(),temp.getBookname(),temp.getPrice(),temp.getAuthor(),temp.getPublishdate()};
+					list.add(tmp);
+				}
+			}
+		}
+		if(index==2) {
+			while(En.hasMoreElements()) {
+				temp=En.nextElement();
+				if(temp.getBookitemid().equals(textField_1.getText())) {
+					Object[] tmp= {temp.getBookitemid(),temp.getBookisbn(),temp.getBookname(),temp.getPrice(),temp.getAuthor(),temp.getPublishdate()};
+					list.add(tmp);
+				}
+			}
+		}
+		Object [][] data=new Object[list.size()][];
+		String column[]= {"书本号","isbn","书名","书价","作者","出版日期"};
+		list.toArray(data);
+		table_1 = new JTable(data,column);
+		table_1.getTableHeader().setReorderingAllowed(false);
+		scrollPane_1.setViewportView(table_1);
 	}
 }
