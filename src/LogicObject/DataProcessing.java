@@ -228,6 +228,26 @@ public class DataProcessing {
 	{
 		if(!connectedToDB)
 			throw new SQLException("无法连接到数据库");
+		//判断该书是否已经被借
+		Enumeration<ArrayList<loan>> En;
+		En=loans.elements();
+		ArrayList<loan> list=null;
+		while(En.hasMoreElements()) {
+			list=En.nextElement();
+			for(int i=0;i<list.size();i++)
+			{
+				if(list.get(i).getBookitemid().equals(bookid))
+				{
+					if(list.get(i).isIsreturned()==false)
+					{
+						JOptionPane.showMessageDialog(null, "该书已被借阅");
+						return false;
+					}
+				}
+			}
+		}
+		
+		
 		Calendar cal = Calendar.getInstance();
 		Date date = cal.getTime();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

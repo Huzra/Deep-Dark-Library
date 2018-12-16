@@ -98,8 +98,8 @@ public class Title_Borrowing_Frame extends JFrame {
 				{
 					
 					try {
-						DataProcessing.updateborrow(BorrowerID, BookId);
-						JOptionPane.showMessageDialog(null, "借书成功");
+						if(DataProcessing.updateborrow(BorrowerID, BookId))
+						JOptionPane.showMessageDialog(null, "借书成功");							
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
