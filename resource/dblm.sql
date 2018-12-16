@@ -1,7 +1,7 @@
 /*
 MySQL Backup
 Database: dblm
-Backup Time: 2018-12-15 14:37:32
+Backup Time: 2018-12-16 12:56:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -126,19 +126,19 @@ end;
 BEGIN;
 LOCK TABLES `dblm`.`administrator` WRITE;
 DELETE FROM `dblm`.`administrator`;
-INSERT INTO `dblm`.`administrator` (`adminid`,`name`,`password`) VALUES ('000001', '胡自然', '123456');
+INSERT INTO `dblm`.`administrator` (`adminid`,`name`,`password`) VALUES ('000001', '胡自然', '123456'),('100000', 'wincen', '123321');
 UNLOCK TABLES;
 COMMIT;
 BEGIN;
 LOCK TABLES `dblm`.`bookitem` WRITE;
 DELETE FROM `dblm`.`bookitem`;
-INSERT INTO `dblm`.`bookitem` (`bookitemid`,`isbn`,`bookname`,`price`,`author`,`publishdate`) VALUES ('100000', 'a', '编译原理', 12, '姚老师', '2011-01-01'),('100001', 'a', '编译原理', 12, '姚老师', '2011-01-01'),('200000', 'b', '体系结构', 55, '刘维', '2011-02-02');
+INSERT INTO `dblm`.`bookitem` (`bookitemid`,`isbn`,`bookname`,`price`,`author`,`publishdate`) VALUES ('100000', 'a', '编译原理', 12, '姚老师', '2011-01-01'),('100001', 'a', '编译原理', 12, '姚老师', '2011-01-01'),('200000', 'b', '体系结构', 55, '刘维', '2011-02-02'),('200001', 'b', '体系结构', 55, '刘维', '2011-02-02');
 UNLOCK TABLES;
 COMMIT;
 BEGIN;
 LOCK TABLES `dblm`.`borrower` WRITE;
 DELETE FROM `dblm`.`borrower`;
-INSERT INTO `dblm`.`borrower` (`borrowerid`,`department`,`name`,`type`,`password`) VALUES ('000000', '计算机', '阿钦', 1, '123456'),('000002', '计算机', '阿淇', 1, '123456'),('000003', '计算机', '阿颖', 1, '123456');
+INSERT INTO `dblm`.`borrower` (`borrowerid`,`department`,`name`,`type`,`password`) VALUES ('000001', '计算机', '阿钦', 1, '123456'),('000002', '计算机', '阿淇', 1, '123456'),('000003', '计算机', '阿颖', 1, '123456');
 UNLOCK TABLES;
 COMMIT;
 BEGIN;
@@ -149,7 +149,7 @@ COMMIT;
 BEGIN;
 LOCK TABLES `dblm`.`librarian` WRITE;
 DELETE FROM `dblm`.`librarian`;
-INSERT INTO `dblm`.`librarian` (`librarianid`,`name`,`password`) VALUES ('000001', '书管', '123456');
+INSERT INTO `dblm`.`librarian` (`librarianid`,`name`,`password`) VALUES ('000001', '书管', '123456'),('123123', 'huzra', '000000');
 UNLOCK TABLES;
 COMMIT;
 BEGIN;

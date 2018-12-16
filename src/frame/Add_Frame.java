@@ -35,9 +35,9 @@ public class Add_Frame extends JFrame {
 	private JTextField majField;
 	private JTextField dirField;
 	private JLabel label_4;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField lbidfld;
+	private JTextField lbnamefld;
+	private JTextField lbpwdfld;
 	private JTextField bkidfld;
 	private JTextField isbnfld;
 	private JTextField bnfld;
@@ -209,30 +209,52 @@ public class Add_Frame extends JFrame {
 		lblId_1.setBounds(49, 85, 72, 18);
 		panel_1.add(lblId_1);
 		
-		textField = new JTextField();
-		textField.setBounds(132, 81, 147, 24);
-		panel_1.add(textField);
-		textField.setColumns(10);
+		lbidfld = new JTextField();
+		lbidfld.setBounds(132, 81, 147, 24);
+		panel_1.add(lbidfld);
+		lbidfld.setColumns(10);
 		
 		JLabel label_5 = new JLabel("\u59D3\u540D:");
 		label_5.setBounds(49, 188, 72, 18);
 		panel_1.add(label_5);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(132, 186, 147, 24);
-		panel_1.add(textField_1);
-		textField_1.setColumns(10);
+		lbnamefld = new JTextField();
+		lbnamefld.setBounds(132, 186, 147, 24);
+		panel_1.add(lbnamefld);
+		lbnamefld.setColumns(10);
 		
 		JLabel label_6 = new JLabel("\u5BC6\u7801:");
 		label_6.setBounds(49, 291, 72, 18);
 		panel_1.add(label_6);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(132, 291, 147, 24);
-		panel_1.add(textField_2);
-		textField_2.setColumns(10);
+		lbpwdfld = new JTextField();
+		lbpwdfld.setBounds(132, 291, 147, 24);
+		panel_1.add(lbpwdfld);
+		lbpwdfld.setColumns(10);
 		
 		JButton button_2 = new JButton("\u6DFB\u52A0");
+		button_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String lbid=lbidfld.getText();
+				String lbname=lbnamefld.getText();
+				String lbpwd=lbpwdfld.getText();			
+				try {
+					if(DataProcessing.insertlibrarian(lbid,lbname,lbpwd))
+					{
+						JOptionPane.showMessageDialog(null, "添加成功");
+					}
+					else
+						JOptionPane.showMessageDialog(null, "添加失败");
+				} catch (HeadlessException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		button_2.setBounds(383, 182, 113, 27);
 		panel_1.add(button_2);
 		

@@ -6,8 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import LogicObject.Administrator;
 import LogicObject.Borrower;
 import LogicObject.DataProcessing;
+import LogicObject.Librarian;
 
 import java.awt.GridLayout;
 import javax.swing.JButton;
@@ -93,7 +95,7 @@ public class LoginFrame extends JFrame {
 		JButton button = new JButton("确定");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(Borrower_Login_Button.isSelected())
+				if(Borrower_Login_Button.isSelected()&&!LibAdmin_Login_Button.isSelected()&&!SysAdmin_Login_Button.isSelected())
 				{
 					String ID=usernameField.getText();
 					String password=passwordField.getText();
@@ -104,17 +106,27 @@ public class LoginFrame extends JFrame {
 						dispose();
 					}
 				}
-				else if(SysAdmin_Login_Button.isSelected())
+				else if(LibAdmin_Login_Button.isSelected()&&!Borrower_Login_Button.isSelected()&&!SysAdmin_Login_Button.isSelected())
 				{
-					SysAdmin_MainFrame frame=new SysAdmin_MainFrame();
-					frame.setVisible(true);
-					dispose();
+					String ID=usernameField.getText();
+					String password=passwordField.getText();
+					Librarian temp=null;
+					if((temp=DataProcessing.searchlibrarian(ID,password))!=null) {
+						LibAdmin_MainFrame frame=new LibAdmin_MainFrame(temp);					
+						frame.setVisible(true);
+						dispose();
+					}
 				}
-				else if(LibAdmin_Login_Button.isSelected())
+				else if(SysAdmin_Login_Button.isSelected()&&!Borrower_Login_Button.isSelected()&&!LibAdmin_Login_Button.isSelected())
 				{
-					LibAdmin_MainFrame frame=new LibAdmin_MainFrame();
-					frame.setVisible(true);
-					dispose();
+					String ID=usernameField.getText();
+					String password=passwordField.getText();
+					Administrator temp=null;
+					if((temp=DataProcessing.searchadministrator(ID,password))!=null) {
+						SysAdmin_MainFrame frame=new SysAdmin_MainFrame(temp);
+						frame.setVisible(true);
+						dispose();
+					}
 				}
 			}
 		});

@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import LogicObject.Administrator;
+import LogicObject.Librarian;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JLabel;
@@ -26,7 +30,7 @@ public class SysAdmin_MainFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SysAdmin_MainFrame frame = new SysAdmin_MainFrame();
+					SysAdmin_MainFrame frame = new SysAdmin_MainFrame(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +42,7 @@ public class SysAdmin_MainFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SysAdmin_MainFrame() {
+	public SysAdmin_MainFrame(Administrator administrator) {
 		setTitle("\u7CFB\u7EDF\u7BA1\u7406\u5458\u754C\u9762");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 671, 538);

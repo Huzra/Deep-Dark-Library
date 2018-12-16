@@ -160,6 +160,8 @@ public class Management_Frame extends JFrame {
 		button_13.setBounds(14, 471, 113, 27);
 		Borrower_panel.add(button_13);
 		
+		//图书管理员
+		
 		JPanel Librarian_panel = new JPanel();
 		Librarian_panel.setLayout(null);
 		tabbedPane.addTab("图书管理员", null, Librarian_panel, null);
@@ -181,18 +183,53 @@ public class Management_Frame extends JFrame {
 		Librarian_panel.add(textField_2);
 		
 		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(14, 98, 37, 24);
+		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"\u5168\u90E8", "ID"}));
+		comboBox_2.setBounds(14, 98, 59, 24);
 		Librarian_panel.add(comboBox_2);
 		
 		JButton button_10 = new JButton("\u67E5\u8BE2");
+		button_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String str = textField_2.getText();
+				Object[][] data=DataProcessing.searchlibrarian(comboBox_2.getSelectedIndex(),str);
+				String[] column= {"图书管理者ID","名字","密码"};
+				table_2 = new JTable(data,column);
+				scrollPane_2.setViewportView(table_2);
+			}
+		});
 		button_10.setBounds(489, 97, 113, 27);
 		Librarian_panel.add(button_10);
 		
 		table_2 = new JTable();
-		table_2.setBounds(14, 130, 588, 368);
-		Librarian_panel.add(table_2);
+		table_2.setEnabled(false);
+		table_2 .getTableHeader().setReorderingAllowed(false);
+		table_2.setModel(new DefaultTableModel(
+			null,new String[] {
+					"图书管理者ID","名字","密码"}
+		));
+		scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(14, 130, 588, 318);
+		Librarian_panel.add(scrollPane_2);
+		scrollPane_2.setViewportView(table_2);
+		
 		
 		JButton button_11 = new JButton("\u5220\u9664");
+		button_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String ID=(String)table_2.getValueAt(table_2.getSelectedRow(), 0);
+				
+				try {
+					if(DataProcessing.deletelibrarian(ID))
+					{
+						JOptionPane.showMessageDialog(null, "删除成功");
+					}
+					else JOptionPane.showMessageDialog(null, "删除失败");
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		button_11.setBounds(433, 13, 113, 27);
 		Librarian_panel.add(button_11);
 		

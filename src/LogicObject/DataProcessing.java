@@ -29,16 +29,22 @@ public class DataProcessing {
 	private static ResultSet resultSet_1;
 	private static boolean connectedToDB=false;
 	static String driverName="com.mysql.jdbc.Driver";               // 加载数据库驱动类
-	static String url="jdbc:mysql://localhost:3306/dblm";       // 声明数据库的URL
+	static String url="jdbc:mysql://localhost:3306/dblm?useSSL=false";       // 声明数据库的URL
 	static String user="root";                                      // 数据库用户
 	static String password="123456";
 	static Hashtable<String, Borrower> borrowers;
 	static Hashtable<String, bookitem> bookitems;
 	static Hashtable<String, ArrayList<loan>> loans;
+	static Hashtable<String,Librarian> librarians;
+	static Hashtable<String,Administrator> administrators;
+	
 	static {
 		borrowers = new Hashtable<String, Borrower>();
 		bookitems = new Hashtable<String, bookitem>();
 		loans=new Hashtable<String,ArrayList<loan>>();
+		librarians =new Hashtable<String,Librarian>();
+		administrators = new Hashtable<String,Administrator>();
+		
 		try {
 			init();
 		} catch (ClassNotFoundException e) {
@@ -106,7 +112,7 @@ public class DataProcessing {
 			}
 		}
 																//loan的hashtable
-		sql="select* from loan";
+		sql="select* from loan order by loanid asc";
 		resultSet=statement.executeQuery(sql);
 		loan ltmp=null;
 		while(resultSet.next()) {
@@ -130,9 +136,40 @@ public class DataProcessing {
 					list.add(ltmp);
 					loans.put(borrowerid, list);
 				}
-			creloanid=Integer.parseInt(loanid)+1;
+			creloanid=Integer.parseInt(loanid)+1;			
 		}
+		
+		
+		//图书管理者hashtable
+		sql="select* from librarian";
+		resultSet=statement.executeQuery(sql);
+		Librarian lbtmp=null;
+		while(resultSet.next()) {
+			String librarianid = resultSet.getString("librarianid");
+			String name = resultSet.getString("name");
+			String password = resultSet.getString("password");
+			lbtmp = new Librarian(librarianid,name,password);
+			librarians.put(librarianid, lbtmp);
+		}
+		
+		//系统管理员hashtable
+		sql="select* from administrator";
+		resultSet=statement.executeQuery(sql);
+		Administrator admintmp=null;
+		while(resultSet.next()) {
+			String adminid = resultSet.getString("adminid");
+			String name = resultSet.getString("name");
+			String password = resultSet.getString("password");
+			admintmp = new Administrator(adminid,name,password);
+			administrators.put(adminid, admintmp);
+		}
+		
+		
 	}
+	
+	
+	
+	
 	public static Enumeration<ArrayList<loan>> getAllLoan()
 	{
 		Enumeration<ArrayList<loan>> e  = loans.elements();
@@ -151,12 +188,16 @@ public class DataProcessing {
 	public static Borrower searchBorrower(String ID, String pwd){
 		Borrower temp=null;
 		temp=borrowers.get(ID);
+		if(temp==null) {
+			JOptionPane.showMessageDialog(null, "账号错误");
+			return null;
+		}
 		String str=temp.getPassword();
 		if(str.equals(pwd))
 			return temp;
 		else
 		{
-			JOptionPane.showMessageDialog(null, "账号或密码错误");
+			JOptionPane.showMessageDialog(null, "密码错误");
 		}
 		return null;
 	}
@@ -280,7 +321,7 @@ public class DataProcessing {
 	}
 	public static boolean insertbookitem(String bkid, String isbn, String bn, double p, String au, String pdate) throws SQLException{
 		// TODO Auto-generated method stub
-		if(bookitems.contains(bkid))
+		if(bookitems.containsKey(bkid))
 		{
 			return false;
 		}
@@ -293,6 +334,113 @@ public class DataProcessing {
 		}
 		return false;
 	}
+	
+	public static Object[][] searchlibrarian(int selectedIndex,String text) {
+		// TODO Auto-generated method stub
+		ArrayList<Object[]> list=new ArrayList<Object[]>();
+		Enumeration<Librarian> En;
+		En=librarians.elements();
+		Librarian temp=null;
+		if(selectedIndex==0) {
+			while(En.hasMoreElements()) {
+				temp=En.nextElement();
+				Object [] Otmp= {temp.getLibrarianid(),temp.getName(),temp.getPassword()};
+				list.add(Otmp);
+			}
+		}
+		else if(selectedIndex==1) {
+			while(En.hasMoreElements()) {
+				temp=En.nextElement();
+				if(temp.getLibrarianid().equals(text))
+				{
+					Object [] Otmp= {temp.getLibrarianid(),temp.getName(),temp.getPassword()};
+					list.add(Otmp);
+				}
+			}
+		}
+		Object[][] data=new Object[list.size()][];
+		list.toArray(data);
+		return data;
+	}
+	
+	public static Librarian searchlibrarian(String ID,String pwd) {
+		Librarian temp=librarians.get(ID);
+		if(temp==null)
+		{
+			JOptionPane.showMessageDialog(null, "账号错误");
+			return null;
+		}
+		if(temp.getPassword().equals(pwd)) {
+			return librarians.get(ID);
+		}
+		else 
+		{
+			JOptionPane.showMessageDialog(null, "密码错误");
+			return null;
+		}
+	}
+	
+	public static Librarian searchlibrarian(String ID) {
+		return librarians.get(ID);
+	}
+	
+	public static boolean deletelibrarian(String ID) throws SQLException{
+		// TODO Auto-generated method stub
+		Librarian temp=searchlibrarian(ID);
+		if(temp==null)
+		{
+			return false;
+		}
+		String sql="delete from librarian where librarianid='"+ID+"'";
+		if(!statement.execute(sql))
+		{
+			librarians.remove(ID);
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean insertlibrarian(String lbid, String lbname, String lbpwd) throws SQLException{
+		// TODO Auto-generated method stub
+		if(librarians.containsKey(lbid))
+		{
+			return false;
+		}
+		Librarian temp=new Librarian(lbid,lbname,lbpwd);
+		String sql="insert into librarian values('"+lbid+"','"+lbname+"','"+lbpwd+"')";
+		if(!statement.execute(sql))
+		{
+			librarians.put(lbid, temp);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public static Administrator searchadministrator(String ID, String pwd) {
+		// TODO Auto-generated method stub
+		Administrator temp=administrators.get(ID);
+		if(temp==null)
+		{
+			JOptionPane.showMessageDialog(null, "账号错误");
+			return null;
+		}
+		if(temp.getPassword().equals(pwd)) {
+			return administrators.get(ID);
+		}
+		else 
+		{
+			JOptionPane.showMessageDialog(null, "密码错误");
+			return null;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	public static  void connectToDB(String driverName) throws SQLException, ClassNotFoundException{
 		Class.forName(driverName);		
@@ -311,4 +459,19 @@ public class DataProcessing {
 			}
 		}
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
