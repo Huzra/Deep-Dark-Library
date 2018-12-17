@@ -76,7 +76,7 @@ public class Add_Frame extends JFrame {
 		setLocationRelativeTo(null);
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
-		
+		setResizable(false);
 		JPanel panel = new JPanel();
 		tabbedPane.addTab("\u501F\u9605\u8005", null, panel, null);
 		panel.setLayout(null);

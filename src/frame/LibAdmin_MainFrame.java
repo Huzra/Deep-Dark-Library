@@ -41,6 +41,7 @@ public class LibAdmin_MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public LibAdmin_MainFrame(Librarian librarian) {
+		setResizable(false);
 		setTitle("\u56FE\u4E66\u7BA1\u7406\u5458\u754C\u9762");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 671, 538);

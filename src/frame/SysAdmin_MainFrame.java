@@ -49,7 +49,7 @@ public class SysAdmin_MainFrame extends JFrame {
 		setLocationRelativeTo(null);
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+		setResizable(false);
 		JMenu Logout_Button = new JMenu("\u6CE8\u9500");
 		Logout_Button.addMouseListener(new MouseAdapter() {
 			@Override

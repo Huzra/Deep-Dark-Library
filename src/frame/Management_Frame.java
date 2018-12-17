@@ -73,7 +73,7 @@ public class Management_Frame extends JFrame {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(5, 5, 621, 543);
 		contentPane.add(tabbedPane);
-		
+		setResizable(false);
 		JPanel Borrower_panel = new JPanel();
 		tabbedPane.addTab("ΩË‘ƒ’ﬂ", null, Borrower_panel, null);
 		Borrower_panel.setLayout(null);

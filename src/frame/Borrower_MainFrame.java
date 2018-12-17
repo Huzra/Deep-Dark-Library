@@ -50,7 +50,7 @@ public class Borrower_MainFrame extends JFrame {
 		setLocationRelativeTo(null);
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+		setResizable(false);
 		JMenu menu = new JMenu("\u6CE8\u9500");
 		menu.addMouseListener(new MouseAdapter() {
 			@Override

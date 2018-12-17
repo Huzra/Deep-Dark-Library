@@ -48,7 +48,7 @@ public class Info_Frame extends JFrame {
 		textPane = new JTextPane();
 		textPane.setEditable(false);
 		contentPane.add(textPane, BorderLayout.CENTER);
-		
+		setResizable(false);
 		JPanel panel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);

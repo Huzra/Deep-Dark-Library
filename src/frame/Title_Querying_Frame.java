@@ -62,13 +62,13 @@ public class Title_Querying_Frame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		
+		setLocationRelativeTo(null);
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.control);
 		contentPane.add(panel, BorderLayout.NORTH);
 		FlowLayout fl_panel = new FlowLayout(FlowLayout.CENTER, 100, 5);
 		panel.setLayout(fl_panel);
-		
+		setResizable(false);
 		JComboBox comboBox = new JComboBox();
 		comboBox.addItem(" È√˚");
 		comboBox.addItem("ISBN");

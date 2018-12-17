@@ -55,7 +55,7 @@ public class Title_Borrowing_Frame extends JFrame {
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-		
+		setResizable(false);
 		JLabel lblid = new JLabel("\u501F\u4E66\u5361\u53F7\uFF1A");
 		lblid.setBounds(80, 35, 92, 21);
 		panel.add(lblid);

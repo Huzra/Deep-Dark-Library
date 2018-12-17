@@ -52,7 +52,7 @@ public class Title_Returning_Frame extends JFrame {
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-		
+		setResizable(false);
 		JLabel label = new JLabel("\u56FE\u4E66\u53F7:");
 		label.setBounds(93, 52, 72, 18);
 		panel.add(label);

@@ -12,11 +12,14 @@ import LogicObject.DataProcessing;
 import LogicObject.Librarian;
 
 import java.awt.GridLayout;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -58,7 +61,7 @@ public class LoginFrame extends JFrame {
 		JPanel MainPanel = new JPanel();
 		MainPanel.setLayout(null);
 		contentPane.add(MainPanel, BorderLayout.CENTER);
-		
+		setResizable(false);
 		JLabel label = new JLabel("用户名:");
 		label.setBounds(82, 30, 75, 30);
 		MainPanel.add(label);
@@ -87,7 +90,11 @@ public class LoginFrame extends JFrame {
 		JRadioButton SysAdmin_Login_Button = new JRadioButton("系统管理员");
 		SysAdmin_Login_Button.setBounds(32, 130, 103, 27);
 		MainPanel.add(SysAdmin_Login_Button);
-		
+		//设置单选
+		ButtonGroup bg = new ButtonGroup();
+		  bg.add(Borrower_Login_Button);
+		  bg.add(LibAdmin_Login_Button);
+		  bg.add(SysAdmin_Login_Button);
 		JPanel ButtonPanel = new JPanel();
 		contentPane.add(ButtonPanel, BorderLayout.SOUTH);
 		ButtonPanel.setLayout(new FlowLayout());
@@ -127,6 +134,9 @@ public class LoginFrame extends JFrame {
 						frame.setVisible(true);
 						dispose();
 					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "请选择用户类型！");
 				}
 			}
 		});
