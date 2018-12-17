@@ -77,6 +77,7 @@ public class loan {
 	}
 	
 	public String getAllInfo() {
+		bookitem temp=DataProcessing.searchbookitem(this.getBookitemid());
 		String Info="借阅信息：\n"+
 					"借阅号："+loanid+"\n"+
 					"借阅者号："+borrowerid+"\n"+
@@ -84,7 +85,8 @@ public class loan {
 					"应还日期："+duedate+"\n"+
 					"isbn："+bookisbn+"\n"+
 					"是否已归还：（false为否）"+isreturned+"\n"+
-					"馆内书号："+bookitemid+"\n\n";
+					"馆内书号："+bookitemid+"\n"+
+					temp.getAllInfo()+"\n\n";
 		return Info;
 	}
 	

@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 public class Info_Frame extends JFrame {
 	private JTextPane textPane;
@@ -45,9 +46,12 @@ public class Info_Frame extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
+		
 		textPane = new JTextPane();
 		textPane.setEditable(false);
-		contentPane.add(textPane, BorderLayout.CENTER);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportView(textPane);
+		contentPane.add(scrollPane, BorderLayout.CENTER);
 		setResizable(false);
 		JPanel panel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
